@@ -6,6 +6,8 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{float}
+
 
 \graphicspath{ {./images/} }
 
@@ -29,7 +31,7 @@
 \pagestyle{plain}
 
 \begin{abstract}
-This paper presents the design, implementation and verification of a 4-bit Arithmetic Logic Unit (ALU) using Cadence Virtuoso and Spectre simulation tools using 45nm Technology with PMOS width adjusted to 2.5 times the NMOS width. The ALU integrates individual operational circuits—Adder, Subtractor, Multiplier, Divider and various logical gates—into a single unit using a 16:1 multiplexer (MUX). The selection of operations is determined by the MUX select lines. Each operational sub-unit was designed to accept two 4-bit binary inputs and generate accurate outputs. To facilitate seamless data handling and verification, an 8-bit parallel-to-serial converter was employed between the outputs of operational blocks and the MUX. The design and simulation process includes the creation of schematic diagrams in  Cadence  Virtuoso and verification using input pulses. Simulations were conducted in Cadence Spectre, and results were verified against truth tables for all possible input combinations. The integration of sub-units and the overall performance of the ALU were validated using specific test cases, demonstrating the successful implementation of the multi-operational ALU.
+This paper presents the design, implementation and verification of a 4-bit Arithmetic Logic Unit (ALU) using Cadence Virtuoso and Spectre simulation tools using 45nm Technology with PMOS width adjusted to 2.5 times the NMOS width. The ALU designed integrates individual operational circuits—Adder, Subtractor, Multiplier, Divider and various logical gates—into a single unit using a 16:1 multiplexer (MUX). The selection of operations is determined by the MUX select lines. Each operational sub-unit was designed to accept two 4-bit binary inputs and generate accurate outputs. To facilitate seamless data handling and verification, an 8-bit parallel-to-serial converter was employed between the outputs of operational blocks and the MUX. The design and simulation process includes the creation of schematic diagrams in  Cadence  Virtuoso and verification using input pulses. Simulations were conducted in Cadence Spectre, and results were verified against truth tables for all possible input combinations. The integration of sub-units and the overall performance of the ALU were validated using specific test cases, demonstrating the successful implementation of the multi-operational ALU.
 \end{abstract}
 \begin{IEEEkeywords}
 Arithmetic Logic Unit, Cadence Virtuoso, Schematic Circuits, Spectre simulation, CMOS
@@ -37,15 +39,16 @@ Arithmetic Logic Unit, Cadence Virtuoso, Schematic Circuits, Spectre simulation,
 
 \section{Introduction}\label{A}
 %In our project, we have seamlessly integrated individual operational circuits into a 4-bit Arithmetic Logic Unit (ALU) using a 16:1 multiplexer (MUX) in Cadence Virtuoso. The operation to be performed was determined by the select lines. The circuit was then converted into a symbol and with the help of input pulses in the testbench the results were verified using Cadence Spectre. The block diagram of the circuit design flow of the 4-bit ALU is as follows. 
-In our project, we have meticulously developed and integrated a 4-bit Arithmetic Logic Unit (ALU) by employing a sophisticated design flow that combines individual operational circuits into a cohesive unit. This integration process leverages the versatility of a 16:1 multiplexer (MUX) to selectively determine the operation performed by the ALU, based on the configuration of its select lines. 
+In this paper, we have meticulously developed and integrated a 4-bit Arithmetic Logic Unit (ALU) by employing a sophisticated design flow that combines individual operational circuits into a cohesive unit. This integration process leverages the versatility of a 16:1 multiplexer (MUX) to selectively determine the operation performed by the ALU, based on the configuration of its select lines. 
 
-The design and implementation of the ALU were carried out within the Cadence Virtuoso environment, a robust platform renowned for its precision in analog and digital circuit design. The integration of the operational circuits into a single 4-bit ALU was achieved through a structured approach that ensured seamless functionality and optimal performance. The use of the 16:1 MUX was pivotal in facilitating the selection of different arithmetic and logic operations, which are fundamental to the ALU's capabilities.
+The design and implementation of the ALU were carried out within the Cadence Virtuoso environment \cite{b6}, a robust platform renowned for its precision in analog and digital circuit design. The integration of the operational circuits into a single 4-bit ALU was achieved through a structured approach that ensured seamless functionality and optimal performance. The use of the 16:1 MUX was pivotal in facilitating the selection of different arithmetic and logic operations\cite{b4}, which are fundamental to the ALU's capabilities.
 
 To validate the functionality of the integrated ALU, the design was translated into a symbolic representation. This was followed by extensive simulation and verification using Cadence Spectre, a powerful tool for circuit simulation and analysis. The testbench setup involved applying various input pulses to the ALU and scrutinizing the output results to confirm the accuracy and reliability of the design.
 
-The block diagram of our circuit design flow encapsulates the entire process, from the initial circuit integration to the final verification phase. This detailed workflow not only underscores the technical proficiency employed in the design but also highlights the systematic approach taken to ensure the ALU's correct operation. The success of this project reflects our commitment to precision and excellence in digital circuit design, paving the way for future advancements in integrated circuit technology.
+The block diagram of our circuit design flow encapsulates the entire process, from the initial circuit integration to the final verification phase. This detailed workflow not only underscores the technical proficiency employed in the design but also highlights the systematic approach taken to ensure the ALU's correct operation. 
+This endeavor reflects our commitment to precision in digital circuit design, paving the way for future advancements in integrated circuit technology.
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=9cm,keepaspectratio,]{"1bit_NAND.png"}}
+\centerline{\includegraphics[width=9cm,keepaspectratio,]{"ALU_Block_diagram.png"}}
 \caption{Block diagram of 4-bit ALU}
 \label{fig1}
 \end{figure}
@@ -59,17 +62,18 @@ In \cite{b1}, a Serial Divider circuit was implemented by the author using a mux
 We have followed a top-down approach for deciding the block diagram of the ALU and bottom-up approach for designing the circuits. The ALU accepts two 4 bit values as input and returns an 8 bit output.
 
 \subsection{Arithmetic Operations}\label{CA}
-\itemize{
+\begin{itemize}
 \item{4-bit Full Adder: Takes two 4-bit binary numbers as input along with a 1-bit input Carry in (Cin) and produces a 4-bit sum along with a 1-bit output Carry out (Cout).}
 \item{4-bit Subtractor: Takes two 4-bit binary numbers as input along with a 1-bit input Borrow in (Bin) and produces a 4-bit difference along with a 1-bit output Borrow out (Bout).}
 \item{4-bit Multiplier: Takes two 4-bit binary numbers as input and produces an 8-bit product.}
-\item{4-bit Divider: Takes two 4-bit binary numbers as input and produces two separate 4-bit outputs: a Quotient and a Remainder.}}
-\\
+\item{4-bit Divider: Takes two 4-bit binary numbers as input and produces two separate 4-bit outputs: a Quotient and a Remainder.}
+\end{itemize}
+
  
 \subsection{Logical Operations}\label{CB}
 There are 7 basic gates, which can be used to implement any Boolean expression. These act as building blocks for all circuits used in this Arithmetic Logic unit.\\
 The NAND gate was implemented with CMOS transistors: PMOS and NMOS. The AND, OR, NOT, NOR, EX-OR, EX-NOR were then implemented using NAND gates.
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centerline{\includegraphics[width=8cm,keepaspectratio,]{"1bit_NAND.png"}}
 \caption{CMOS Implementation of NAND}
 \label{fig2}
@@ -83,53 +87,53 @@ A 16:1 Multiplexer is designed using 2:1 MUX and all the sub-units given as inpu
 An 8-bit PISO is used between output of each sub-unit and input of MUX to facilitate efficient data handling. The converter optimizes data flow and enhances the overall system efficiency.
 \\ 
 
-\section{Design and Simulation}\label{D}
-All the simulations have been run in Cadence Spectre using voltage input pulses.
+\section{Design}\label{D}
+All the schematics have been created in Cadence Virtuoso using CMOS transistors.
 
 \subsection{Arithmetic Operations}\label{DA}
 The operations mentioned in Methodology are performed and the respective Schematic circuit is shown below to perform these operations. The building blocks of a 4-bit  Full Adder Fig.~\ref{fig3} are four 1- bit Full Adders cascaded together. For 4-bit  Full Subtractor Fig.~\ref{fig4} four 1-bit Full Subtractors were cascaded. A 4-bit Array Multiplier Fig.~\ref{fig5} comprises 4-bit full adders and AND gates. The 4-bit Serial Divider Fig.~\ref{fig6} is made of an SB block, which is a 1-bit Full Subtractor and 2:1 Mux cascaded together, AND, NOT and OR gates.
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centerline{\includegraphics[width=8cm,keepaspectratio,]{"4bit_Adder.png"}}
 \caption{Schematic of 4-bit Adder}
 \label{fig3}
 \end{figure}
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centerline{\includegraphics[width=8cm,keepaspectratio,]{"4bit_Subtractor.png"}}
 \caption{Schematic of 4-bit Subtractor}
 \label{fig4}
 \end{figure}
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centerline{\includegraphics[width=8cm,keepaspectratio,]{"4bit_Multiplier.png"}}
 \caption{Schematic of 4-bit Multiplier}
 \label{fig5}
 \end{figure}
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centerline{\includegraphics[width=8cm,keepaspectratio,]{"4bit_Divider.png"}}
 \caption{Schematic of 4-bit  Divider}
 \label{fig6}
 \end{figure}
-\\ \\ \\ \\ \\ \\ \\ 
+
 \subsection{Logical Operations}\label{DB}
 The logical operations mentioned above are performed and the Schematic of one of them is given below. The 4-input NAND gate shown in Fig.~\ref{fig7} is designed by cascading four 2-input NAND gates in parallel. All the other logic gates have been implemented similarly.
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centerline{\includegraphics[width=7cm,keepaspectratio,]{"4bit_NAND.png"}}
 \caption{Schematic of 4-bit NAND}
 \label{fig7}
 \end{figure}
-\\ 
+
 \subsection{Total Integration}\label{DC}
 The output of each of these operations is given to a PISO convertor and then to the MUX. The following  test case  is considered:  A  =  1011 and B = 0101. All the sub-units are integrated together by connecting each of them to a PISO converter as shown in Fig.~\ref{fig8}. Outputs of these sub-units are further connected to a 16:1 MUX. Fig.~\ref{fig9} is the testbench in which the select lines, controlled by input pulses, determine the operation to be performed over 8 clock cycles.
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centerline{\includegraphics[height=8cm,keepaspectratio,]{"ALU_Schematic.png"}}
 \caption{Total Integration of 4-bit ALU }
 \label{fig8}
 \end{figure}
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centerline{\includegraphics[width=7cm,keepaspectratio,]{"ALU_Symbol.png"}}
 \caption{4-bit ALU Symbol }
 \label{fig9}
 \end{figure}
-\begin{table}[htbp]
+\begin{table}[H]
 \caption{Order of operations in the ALU i.e  Operational Codes }
 \begin{center}
 \begin{tabular}{{|p{25mm}|p{25mm}|p{20mm}|}}
@@ -169,42 +173,41 @@ The output of each of these operations is given to a PISO convertor and then to 
 \end{tabular}
 \label{tab1}
 \end{center}
-\end{table} \\ 
-\\ \\ \\ \\ 
-\section{Results}\label{E}
+\end{table}
+
+\section{Simulation and Results}\label{E}
+
 The simulation results for a test case using  a=  1011 and b=0101 are shown in Fig.~\ref{fig10} to Fig.~\ref{fig14}. The first waveform is the common clock for the entire circuit.The second waveform is SHIFT/LOAD of the PISO. The third waveform is the final output. In the Output Figures the last four waveforms represent the Input pulses of the Select Lines of the 16:1 MUX, with the last waveform being MSB.\\
 The select lines determine the Opcode associated with every operation performed by the ALU as listed in Table~\ref{tab1}. The output of every sub-unit is 8- bit wide, therefore the select lines change every 8 clock pulses to accommodate all the significant output bits in the waveform.
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centerline{\includegraphics[width=8cm,keepaspectratio,]{"Opcode_0000_0011.png"}}
 \caption{Opcode: 0000 to 0011 }
 \label{fig10}
-\end{figure}\\ 
-\begin{figure}[htbp]
+\end{figure}
+\begin{figure}[H]
 \centerline{\includegraphics[width=8cm,keepaspectratio,]{"Opcode_0011_0110.png"}}
 \caption{Opcode: 0011 to 0110}
 \label{fig11}
 \end{figure}
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centerline{\includegraphics[width=8cm,keepaspectratio,]{"Opcode_0110_1000.png"}}
 \caption{Opcode: 0110 to 1000}
 \label{fig12}
 \end{figure} 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centerline{\includegraphics[width=8cm,keepaspectratio,]{"Opcode_1001_1011.png"}}
 \caption{Opcode: 1001 to 1011}
 \label{fig13}
 \end{figure}
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centerline{\includegraphics[width=8cm,keepaspectratio,]{"Opcode_1100_1111.png"}}
 \caption{Opcode: 1100 to 1111}
 \label{fig14}
 \end{figure}
-\\  \\ \\ 
-
 
 \section{Conclusions}\label{F}
 The simulation and verification of the ALU circuits using Cadence Spectre, with input voltage pulses in a test-bench setup, confirm the proper functioning of each sub-unit. By thoroughly testing all possible 4-bit input combinations against the truth tables, it has been ensured that the ALU performs its arithmetic and logic functions accurately. This rigorous approach validates that each sub-unit and the overall ALU are functioning as intended, providing reliable performance in practical applications. The successful completion of these simulations demonstrate the robustness and accuracy of the designed ALU. 
-\\
+\\ \\ \\
 
 \section{Future Scope}\label{G}
 The future scope lies in the integration of code converters for operations like binary to hexadecimal and decimal number systems. Progressing to the layout process will enhance the design. Incorporating memory and time management blocks will further optimize efficiency, improving both performance and resource utilization.
